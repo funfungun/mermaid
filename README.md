@@ -28,7 +28,7 @@ erDiagram
         int group_id FK "REFERENCES GROUP(id)"
         int user_id FK "REFERENCES USER(id)"
         datetime joinedAt "DEFAULT NOW()"
-        UNIQUE(group_id, user_id)
+        %% UNIQUE(group_id, user_id) 추가해야 함
     }
 
     GROUP ||--o{ GROUP_PARTICIPANT : "has many participants"
