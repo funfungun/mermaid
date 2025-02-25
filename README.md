@@ -17,15 +17,23 @@ erDiagram
 
     USER {
         int id PK
-        int group_id FK
-        string nickname
+        string nickname "UNIQUE"
         string password
         datetime createdAt "DEFAULT NOW()"
         datetime updatedAt "DEFAULT NOW()"
     }
-    USER }|--|| GROUP : "belongs to"
-    USER ||--o| EXERCISE_RECORD : "writes"
+
+    GROUP_PARTICIPANT {
+        int id PK
+        int group_id FK
+        int user_id FK
+        datetime joinedAt "DEFAULT NOW()"
+    }
+
+    GROUP ||--o{ GROUP_PARTICIPANT : "has many participants"
+    USER ||--o{ GROUP_PARTICIPANT : "can join many groups"
     GROUP ||--|| USER : "has an owner"
+    USER ||--o| EXERCISE_RECORD : "writes"
 
     EXERCISE_RECORD {
         int id PK
