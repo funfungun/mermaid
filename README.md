@@ -39,11 +39,11 @@ erDiagram
         int id PK
         int group_id FK
         int user_id FK
-        string type "ENUM('running', 'cycling', 'swimming')"
+        string exerciseType "ENUM('running', 'cycling', 'swimming')"
         string description
-        int duration "in seconds"
+        int duration "time"
         float distance "in km"
-        string[] images
+        string[] photos
         datetime createdAt "DEFAULT NOW()"
     }
     EXERCISE_RECORD }|--|| GROUP : "belongs to"
