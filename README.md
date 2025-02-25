@@ -1,3 +1,4 @@
+```mermaid
 erDiagram
     GROUP {
         int id PK
@@ -57,3 +58,4 @@ erDiagram
     }
 
     GROUP ||--o{ BADGE : "can have multiple"
+```
