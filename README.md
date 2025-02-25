@@ -1,20 +1,18 @@
-# mermaid
-
 ```mermaid
 erDiagram
     GROUP {
         int id PK
-        string name "UNIQUE" 
+        string name "UNIQUE"
         string description
-        string nickname
-        string password
-        string image_url
+        string photoUrl
+        int goalRep "DEFAULT 0"
+        string discordWebhookUrl
+        string discordInviteUrl
+        int likeCount "DEFAULT 0"
         string[] tags
-        int goal_count "DEFAULT 0"
-        string discord_webhook_url
-        string discord_invite_url
-        int recommendations "DEFAULT 0"
-        datetime created_at "DEFAULT NOW()"
+        int owner_id FK
+        datetime createdAt "DEFAULT NOW()"
+        datetime updatedAt "DEFAULT NOW()"
     }
 
     USER {
@@ -22,10 +20,12 @@ erDiagram
         int group_id FK
         string nickname
         string password
-        datetime joined_at "DEFAULT NOW()"
+        datetime createdAt "DEFAULT NOW()"
+        datetime updatedAt "DEFAULT NOW()"
     }
     USER }|--|| GROUP : "belongs to"
     USER ||--o| EXERCISE_RECORD : "writes"
+    GROUP ||--|| USER : "has an owner"
 
     EXERCISE_RECORD {
         int id PK
@@ -36,7 +36,7 @@ erDiagram
         int duration "in seconds"
         float distance "in km"
         string[] images
-        datetime created_at "DEFAULT NOW()"
+        datetime createdAt "DEFAULT NOW()"
     }
     EXERCISE_RECORD }|--|| GROUP : "belongs to"
 
@@ -44,7 +44,7 @@ erDiagram
         int id PK
         int group_id FK
         string type "ENUM('participants_10', 'records_100', 'recommendations_100')"
-        datetime awarded_at "DEFAULT NOW()"
+        datetime awardedAt "DEFAULT NOW()"
     }
     BADGE }|--|| GROUP : "awarded to"
 
