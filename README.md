@@ -1,4 +1,3 @@
-```mermaid
 erDiagram
     GROUP {
         int id PK
@@ -10,7 +9,7 @@ erDiagram
         string discordInviteUrl
         int likeCount "DEFAULT 0"
         string[] tags
-        int owner_id FK
+        int owner_id FK "REFERENCES USER(id)"
         datetime createdAt "DEFAULT NOW()"
         datetime updatedAt "DEFAULT NOW()"
     }
@@ -25,20 +24,20 @@ erDiagram
 
     GROUP_PARTICIPANT {
         int id PK
-        int group_id FK
-        int user_id FK
+        int group_id FK "REFERENCES GROUP(id)"
+        int user_id FK "REFERENCES USER(id)"
         datetime joinedAt "DEFAULT NOW()"
+        UNIQUE(group_id, user_id)
     }
 
     GROUP ||--o{ GROUP_PARTICIPANT : "has many participants"
     USER ||--o{ GROUP_PARTICIPANT : "can join many groups"
-    GROUP ||--|| USER : "has an owner"
-    USER ||--o| EXERCISE_RECORD : "writes"
+    GROUP ||--|{ USER : "has an owner"
 
     EXERCISE_RECORD {
         int id PK
-        int group_id FK
-        int user_id FK
+        int group_id FK "REFERENCES GROUP(id)"
+        int user_id FK "REFERENCES USER(id)"
         string exerciseType "ENUM('running', 'cycling', 'swimming')"
         string description
         int duration "time"
@@ -46,15 +45,15 @@ erDiagram
         string[] photos
         datetime createdAt "DEFAULT NOW()"
     }
-    EXERCISE_RECORD }|--|| GROUP : "belongs to"
+
+    GROUP ||--o{ EXERCISE_RECORD : "contains"
+    USER ||--o{ EXERCISE_RECORD : "writes"
 
     BADGE {
         int id PK
-        int group_id FK
+        int group_id FK "REFERENCES GROUP(id)"
         string type "ENUM('participants_10', 'records_100', 'recommendations_100')"
         datetime awardedAt "DEFAULT NOW()"
     }
-    BADGE }|--|| GROUP : "awarded to"
 
-    GROUP ||--o| BADGE : "can have multiple"
-```
+    GROUP ||--o{ BADGE : "can have multiple"
