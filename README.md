@@ -17,6 +17,7 @@ erDiagram
         int likeCount
         string[] tags
         int recordCount
+        string password
         int createdAt
         int updatedAt
     }
@@ -27,6 +28,7 @@ erDiagram
         int time
         float distance
         string[] photos
+        string password
         int createdAt
         int updatedAt
     }
