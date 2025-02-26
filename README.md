@@ -10,15 +10,7 @@ erDiagram
         string discordInviteUrl
         int likeCount "DEFAULT 0"
         string[] tags
-        int owner_id FK "REFERENCES USER(id)"
-        datetime createdAt "DEFAULT NOW()"
-        datetime updatedAt "DEFAULT NOW()"
-    }
-
-    USER {
-        int id PK
-        string nickname "UNIQUE"
-        string password
+        int owner_id "REFERENCES GROUP_PARTICIPANT(id)"
         datetime createdAt "DEFAULT NOW()"
         datetime updatedAt "DEFAULT NOW()"
     }
@@ -26,20 +18,19 @@ erDiagram
     GROUP_PARTICIPANT {
         int id PK
         int group_id FK "REFERENCES GROUP(id)"
-        int user_id FK "REFERENCES USER(id)"
+        string nickname "UNIQUE"
+        string password
         datetime joinedAt "DEFAULT NOW()"
-        %% UNIQUE(group_id, user_id) 추가해야 함
     }
 
     GROUP ||--o{ GROUP_PARTICIPANT : "has many participants"
-    USER ||--o{ GROUP_PARTICIPANT : "can join many groups"
-    GROUP ||--|{ USER : "has an owner"
+    GROUP ||--|{ GROUP_PARTICIPANT : "has an owner"
 
     EXERCISE_RECORD {
         int id PK
         int group_id FK "REFERENCES GROUP(id)"
-        int user_id FK "REFERENCES USER(id)"
-        string[] exerciseType "e.g. ['running', 'cycling', 'swimming']"
+        int participant_id FK "REFERENCES GROUP_PARTICIPANT(id)"
+        string exerciseType[] "e.g. ['running', 'cycling', 'swimming']"
         string description
         int duration "time"
         float distance "in km"
@@ -48,14 +39,5 @@ erDiagram
     }
 
     GROUP ||--o{ EXERCISE_RECORD : "contains"
-    USER ||--o{ EXERCISE_RECORD : "writes"
-
-    BADGE {
-        int id PK
-        int group_id FK "REFERENCES GROUP(id)"
-        string[] type "e.g. ['participants_10', 'records_100', 'recommendations_100']"
-        datetime awardedAt "DEFAULT NOW()"
-    }
-
-    GROUP ||--o{ BADGE : "can have multiple"
+    GROUP_PARTICIPANT ||--o{ EXERCISE_RECORD : "writes"
 ```
