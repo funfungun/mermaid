@@ -21,7 +21,8 @@ erDiagram
         int group_id FK "REFERENCES GROUP(id)"
         string nickname "UNIQUE"
         string password
-        datetime joinedAt "DEFAULT NOW()"
+        datetime createdAt "DEFAULT NOW()"
+        datetime updatedAt "DEFAULT NOW()"
     }
 
     GROUP ||--o{ GROUP_PARTICIPANT : "has many participants"
