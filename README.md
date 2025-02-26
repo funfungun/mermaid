@@ -10,7 +10,8 @@ erDiagram
         string discordInviteUrl
         int likeCount "DEFAULT 0"
         string[] tags
-        int owner_id "REFERENCES GROUP_PARTICIPANT(id)"
+        string ownerNickname "NOT NULL"
+        string ownerPassword "NOT NULL"
         datetime createdAt "DEFAULT NOW()"
         datetime updatedAt "DEFAULT NOW()"
     }
@@ -24,7 +25,6 @@ erDiagram
     }
 
     GROUP ||--o{ GROUP_PARTICIPANT : "has many participants"
-    GROUP ||--|{ GROUP_PARTICIPANT : "has an owner"
 
     EXERCISE_RECORD {
         int id PK
