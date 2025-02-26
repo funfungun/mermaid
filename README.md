@@ -30,7 +30,7 @@ erDiagram
         int id PK
         int group_id FK "REFERENCES GROUP(id)"
         int participant_id FK "REFERENCES GROUP_PARTICIPANT(id)"
-        string exerciseType[] "e.g. ['running', 'cycling', 'swimming']"
+        string[] exerciseType "e.g. ['running', 'cycling', 'swimming']"
         string description
         int duration "time"
         float distance "in km"
