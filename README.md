@@ -1,13 +1,14 @@
 ```mermaid
 erDiagram
     PARTICIPANT {
-        int id
+        int id PK
         string nickname
         int createdAt
         int updatedAt
     }
+
     GROUP {
-        int id
+        int id PK
         string name
         string description
         string photoUrl
@@ -15,41 +16,52 @@ erDiagram
         string discordWebhookUrl
         string discordInviteUrl
         int likeCount
-        array tags
         int recordCount
         int createdAt
         int updatedAt
+        int ownerId FK
     }
+
+    GROUP_PARTICIPANTS {
+        int groupId FK
+        int participantId FK
+    }
+
+    GROUP_TAGS {
+        int groupId FK
+        string tag
+    }
+
+    GROUP_BADGES {
+        int groupId FK
+        string badgeType
+    }
+
     RECORD {
-        int id
+        int id PK
         string exerciseType
         string description
         int time
         int distance
         array photos
-        int participantId
+        int participantId FK
         int createdAt
         int updatedAt
     }
+
     RANK {
-        int participantId
+        int participantId PK
         string nickname
         int recordCount
         int recordTime
     }
 
-    PARTICIPANT ||--o| GROUP : "owner"
-    PARTICIPANT ||--o| GROUP : "participants"
-    PARTICIPANT ||--o| RECORD : "author"
-    GROUP ||--|{ GROUP_BADGES : "badges"
-    GROUP ||--|{ GROUP_TAGS : "tags"
-    RECORD }|--|| PARTICIPANT : "author"
-
-    GROUP_BADGES {
-        string badgeType
-    }
-
-    GROUP_TAGS {
-        string tag
-    }
+    PARTICIPANT ||--o| GROUP : "owned by"
+    PARTICIPANT ||--o| GROUP_PARTICIPANTS : "part of"
+    GROUP ||--o| GROUP_PARTICIPANTS : "has participants"
+    GROUP ||--o| GROUP_TAGS : "has tags"
+    GROUP ||--o| GROUP_BADGES : "has badges"
+    PARTICIPANT ||--o| RECORD : "creates"
+    GROUP ||--o| RECORD : "contains"
+    PARTICIPANT ||--o| RANK : "ranks"
 ```
