@@ -1,13 +1,15 @@
 ```mermaid
 erDiagram
     Participant {
-        int id PK
+        int id
         string nickname
+        string password
         int createdAt
         int updatedAt
     }
+
     Group {
-        int id PK
+        int id
         string name
         string description
         string photoUrl
@@ -15,23 +17,23 @@ erDiagram
         string discordWebhookUrl
         string discordInviteUrl
         int likeCount
-        string[] tags
+        array tags
         int recordCount
-        string password
-        int createdAt
-        int updatedAt
+        int ownerId
     }
+
     Record {
-        int id PK
-        enum ExerciseType
+        int id
+        string exerciseType
         string description
         int time
-        float distance
-        string[] photos
-        string password
+        int distance
+        array photos
+        int authorId
         int createdAt
         int updatedAt
     }
+
     Rank {
         int participantId
         string nickname
@@ -39,21 +41,26 @@ erDiagram
         int recordTime
     }
 
-    GroupParticipant {
-        int groupId FK
-        int participantId FK
+    Participant ||--o| Group : owns
+    Group ||--o| Participant : has
+    Group ||--o| Record : contains
+    Record ||--o| Participant : authored
+    Rank ||--o| Participant : ranked
+
+    BadgeType {
+        string PARTICIPATION_10
+        string RECORD_100
+        string LIKE_100
     }
 
-    GroupLike {
-        int groupId FK
-        int participantId FK
+    ExerciseType {
+        string RUN
+        string BIKE
+        string SWIM
     }
 
-    Group ||--o{ Participant : owner
-    Group ||--o{ GroupParticipant : participants
-    Participant ||--o{ GroupParticipant : participant
-    Group ||--o{ Record : records
-    Record ||--o{ Participant : author
-    Group ||--o{ GroupLike : likes
-    Participant ||--o{ GroupLike : participant
+    RankDuration {
+        string MONTHLY
+        string WEEKLY
+    }
 ```
