@@ -41,6 +41,6 @@ erDiagram
     Group ||--o| Rank: "ranks"
     Group ||--o| BadgeType: "awards"
     Participant ||--o| Record: "records"
-    Rank ||--|> Participant: "belongs_to"
+    Rank }|--|| Participant: "belongs_to"
     Record ||--o| BadgeType: "may_have"
 ```
