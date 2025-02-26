@@ -1,15 +1,15 @@
 ```mermaid
 erDiagram
-    Participant {
-        int id
+    PARTICIPANT {
+        int id PK
         string nickname
         string password
         int createdAt
         int updatedAt
     }
 
-    Group {
-        int id
+    GROUP {
+        int id PK
         string name
         string description
         string photoUrl
@@ -17,50 +17,53 @@ erDiagram
         string discordWebhookUrl
         string discordInviteUrl
         int likeCount
-        array tags
+        string tags
         int recordCount
-        int ownerId
-    }
-
-    Record {
-        int id
-        string exerciseType
-        string description
-        int time
-        int distance
-        array photos
-        int authorId
+        int ownerId FK
         int createdAt
         int updatedAt
     }
 
-    Rank {
-        int participantId
+    GROUP_PARTICIPANTS {
+        int groupId FK
+        int participantId FK
+        string password
+    }
+
+    BADGE {
+        string type PK
+    }
+
+    GROUP_BADGES {
+        int groupId FK
+        string badgeType FK
+    }
+
+    RECORD {
+        int id PK
+        string exerciseType
+        string description
+        int time
+        int distance
+        string photos
+        int authorId FK
+        int createdAt
+        int updatedAt
+    }
+
+    RANK {
+        int participantId FK
         string nickname
         int recordCount
         int recordTime
     }
 
-    Participant ||--o| Group : owns
-    Group ||--o| Participant : has
-    Group ||--o| Record : contains
-    Record ||--o| Participant : authored
-    Rank ||--o| Participant : ranked
-
-    BadgeType {
-        string PARTICIPATION_10
-        string RECORD_100
-        string LIKE_100
-    }
-
-    ExerciseType {
-        string RUN
-        string BIKE
-        string SWIM
-    }
-
-    RankDuration {
-        string MONTHLY
-        string WEEKLY
-    }
+    PARTICIPANT ||--o| GROUP : "owns"
+    PARTICIPANT ||--o| RECORD : "creates"
+    GROUP ||--o| GROUP_PARTICIPANTS : "includes"
+    PARTICIPANT ||--o| GROUP_PARTICIPANTS : "joins"
+    GROUP ||--o| GROUP_BADGES : "has"
+    BADGE ||--o| GROUP_BADGES : "is assigned to"
+    PARTICIPANT ||--o| RANK : "has rank"
+    RECORD ||--o| RANK : "records for"
 ```
