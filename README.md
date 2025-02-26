@@ -1,7 +1,13 @@
 ```mermaid
 erDiagram
+    Participant {
+        int id PK
+        string nickname
+        int createdAt
+        int updatedAt
+    }
     Group {
-        int id
+        int id PK
         string name
         string description
         string photoUrl
@@ -11,18 +17,18 @@ erDiagram
         int likeCount
         string[] tags
         int recordCount
-    }
-    Participant {
-        int id
-        string nickname
+        int createdAt
+        int updatedAt
     }
     Record {
-        int id
-        string exerciseType
+        int id PK
+        enum ExerciseType
         string description
         int time
-        int distance
+        float distance
         string[] photos
+        int createdAt
+        int updatedAt
     }
     Rank {
         int participantId
@@ -30,17 +36,22 @@ erDiagram
         int recordCount
         int recordTime
     }
-    BadgeType {
-        enum PARTICIPATION_10
-        enum RECORD_100
-        enum LIKE_100
+
+    GroupParticipant {
+        int groupId FK
+        int participantId FK
     }
 
-    Group ||--o| Participant: "has"
-    Group ||--o| Record: "generates"
-    Group ||--o| Rank: "ranks"
-    Group ||--o| BadgeType: "awards"
-    Participant ||--o| Record: "records"
-    Rank }|--|| Participant: "belongs_to"
-    Record ||--o| BadgeType: "may_have"
+    GroupLike {
+        int groupId FK
+        int participantId FK
+    }
+
+    Group ||--o{ Participant : owner
+    Group ||--o{ GroupParticipant : participants
+    Participant ||--o{ GroupParticipant : participant
+    Group ||--o{ Record : records
+    Record ||--o{ Participant : author
+    Group ||--o{ GroupLike : likes
+    Participant ||--o{ GroupLike : participant
 ```
