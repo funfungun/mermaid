@@ -39,7 +39,7 @@ erDiagram
         int id PK
         int group_id FK "REFERENCES GROUP(id)"
         int user_id FK "REFERENCES USER(id)"
-        string exerciseType "ENUM('running', 'cycling', 'swimming')"
+        string exerciseType[] "e.g. ['running', 'cycling', 'swimming']"
         string description
         int duration "time"
         float distance "in km"
@@ -53,7 +53,7 @@ erDiagram
     BADGE {
         int id PK
         int group_id FK "REFERENCES GROUP(id)"
-        string type "ENUM('participants_10', 'records_100', 'recommendations_100')"
+        string type[] "e.g. ['participants_10', 'records_100', 'recommendations_100']"
         datetime awardedAt "DEFAULT NOW()"
     }
 
