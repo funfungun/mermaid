@@ -1,15 +1,15 @@
 ```mermaid
 erDiagram
-    PARTICIPANT {
-        int id PK
+    Participant {
+        string id
         string nickname
         string password
-        int createdAt
-        int updatedAt
+        datetime createdAt
+        datetime updatedAt
     }
 
-    GROUP {
-        int id PK
+    Group {
+        string id
         string name
         string description
         string photoUrl
@@ -17,53 +17,39 @@ erDiagram
         string discordWebhookUrl
         string discordInviteUrl
         int likeCount
-        string tags
-        int recordCount
-        int ownerId FK
-        int createdAt
-        int updatedAt
+        string[] tags
+        datetime createdAt
+        datetime updatedAt
     }
 
-    GROUP_PARTICIPANTS {
-        int groupId FK
-        int participantId FK
-        string password
-    }
-
-    BADGE {
-        string type PK
-    }
-
-    GROUP_BADGES {
-        int groupId FK
-        string badgeType FK
-    }
-
-    RECORD {
-        int id PK
+    Record {
+        string id
         string exerciseType
         string description
         int time
         int distance
-        string photos
-        int authorId FK
-        int createdAt
-        int updatedAt
+        string[] photos
+        datetime createdAt
+        datetime updatedAt
     }
 
-    RANK {
-        int participantId FK
+    Badge {
+        string id
+        string type
+        string groupId
+    }
+
+    Rank {
+        string id
+        string participantId
         string nickname
         int recordCount
         int recordTime
     }
 
-    PARTICIPANT ||--o| GROUP : "owns"
-    PARTICIPANT ||--o| RECORD : "creates"
-    GROUP ||--o| GROUP_PARTICIPANTS : "includes"
-    PARTICIPANT ||--o| GROUP_PARTICIPANTS : "joins"
-    GROUP ||--o| GROUP_BADGES : "has"
-    BADGE ||--o| GROUP_BADGES : "is assigned to"
-    PARTICIPANT ||--o| RANK : "has rank"
-    RECORD ||--o| RANK : "records for"
+    Participant ||--o| Group : "ownerId"
+    Participant ||--o| Group : "participants"
+    Participant ||--o| Record : "authorId"
+    Group ||--o| Badge : "groupId"
+    Participant ||--o| Rank : "participantId"
 ```
