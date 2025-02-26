@@ -10,6 +10,7 @@ erDiagram
         string discordInviteUrl
         int likeCount "DEFAULT 0"
         string[] tags
+        string[] badges
         string ownerNickname "NOT NULL"
         string ownerPassword "NOT NULL"
         datetime createdAt "DEFAULT NOW()"
