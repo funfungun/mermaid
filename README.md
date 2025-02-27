@@ -55,4 +55,3 @@ erDiagram
         BIKE
         SWIM
     }
-```
