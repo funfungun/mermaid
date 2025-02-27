@@ -1,50 +1,58 @@
 ```mermaid
 erDiagram
-    Participant {
-        int id PK
-        datetime createdAt
-        datetime updatedAt
-        string nickname UNIQUE
+    PARTICIPANT {
+        STRING id
+        STRING nickname
+        STRING password
+        DATETIME createdAt
+        DATETIME updatedAt
+        STRING groupId
     }
-    Group {
-        int id PK
-        datetime createdAt
-        datetime updatedAt
-        string name
-        string? description
-        string? photoUrl
-        int goalRep
-        string? discordWebhookUrl
-        string? discordInviteUrl
-        int likeCount
-        string[] tags
-        string[] badges
-        int recordCount
+    GROUP {
+        STRING id
+        STRING name
+        STRING description
+        STRING photoUrl
+        INT goalRep
+        STRING discordWebhookUrl
+        STRING discordInviteUrl
+        INT likeCount
+        STRING[] tags
+        STRING ownerNickname
+        STRING ownerPassword
+        BADGETYPE[] badges
+        INT recordCount
+        DATETIME createdAt
+        DATETIME updatedAt
     }
-    Record {
-        int id PK
-        datetime createdAt
-        datetime updatedAt
-        string exerciseType
-        string? description
-        int time
-        float distance
-        string[] photos
-    }
-    Rank {
-        int id PK
-        int recordCount
-        int recordTime
-    }
-    Like {
-        int id PK
+    RECORD {
+        STRING id
+        EXERCISETYPE exerciseType
+        STRING description
+        INT time
+        INT distance
+        STRING[] photos
+        STRING authorId
+        STRING groupId
+        DATETIME createdAt
+        DATETIME updatedAt
     }
 
-    Participant ||--o{ Group : participates in
-    Participant ||--o{ Record : creates
-    Participant ||--o{ Rank : ranked in
-    Group ||--o{ Record : has
-    Group ||--o{ Rank : has
-    Group ||--o{ Like : has
-    Participant ||--o{ Group : owns
+    PARTICIPANT ||--o{ RECORD : has
+    GROUP ||--o{ PARTICIPANT : contains
+    GROUP ||--o{ RECORD : has
+    RECORD }|--|| PARTICIPANT : author
+    RECORD }|--|| GROUP : belongsTo
+
+    enum BADGETYPE {
+        PARTICIPATION_10
+        RECORD_100
+        LIKE_100
+    }
+
+    enum EXERCISETYPE {
+        RUN
+        BIKE
+        SWIM
+    }
 ```
