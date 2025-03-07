@@ -55,4 +55,16 @@ erDiagram
   Record }|--|| Group : "group"
   Record }|--|| Participant : "author"
   Group }|--|| Tag : "GroupTags"
+
+Enum Types
+BadgeType:
+
+PARTICIPATION_10
+RECORD_100
+LIKE_100
+ExerciseType:
+
+RUN
+BIKE
+SWIM
 ```
