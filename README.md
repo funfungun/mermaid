@@ -1,63 +1,69 @@
-## ERD
-
 ```mermaid
 erDiagram
-    PARTICIPANT {
-        INT id
-        STRING nickname
-        STRING password
-        DATETIME createdAt
-        DATETIME updatedAt
-        INT groupId
-    }
+  Participant {
+    int id PK
+    string nickname
+    string password
+    datetime createdAt
+    datetime updatedAt
+    int groupId FK
+  }
 
-    GROUP {
-        INT id
-        STRING name
-        STRING description
-        STRING photoUrl
-        INT goalRep
-        STRING discordWebhookUrl
-        STRING discordInviteUrl
-        INT likeCount
-        STRING ownerNickname
-        STRING ownerPassword
-        INT recordCount
-        DATETIME createdAt
-        DATETIME updatedAt
-    }
+  Group {
+    int id PK
+    string name
+    string description
+    string photoUrl
+    int goalRep
+    string discordWebhookUrl
+    string discordInviteUrl
+    int likeCount
+    string ownerNickname
+    string ownerPassword
+    BadgeType badges
+    int recordCount
+    datetime createdAt
+    datetime updatedAt
+  }
 
-    RECORD {
-        INT id
-        ENUM exerciseType
-        STRING description
-        INT time
-        INT distance
-        STRING[] photos
-        INT authorId
-        INT groupId
-        DATETIME createdAt
-        DATETIME updatedAt
-    }
+  Record {
+    int id PK
+    ExerciseType exerciseType
+    string description
+    int time
+    int distance
+    string[] photos
+    int authorId FK
+    int groupId FK
+    datetime createdAt
+    datetime updatedAt
+  }
 
-    TAG {
-        INT id
-        STRING name
-        DATETIME createdAt
-        DATETIME updatedAt
-        INT groupId
-    }
+  Tag {
+    int id PK
+    string name
+    datetime createdAt
+    datetime updatedAt
+    int groupId FK
+  }
 
-    PARTICIPANT }o--|| GROUP : "belongs to"
-    GROUP ||--o{ PARTICIPANT : "has many"
-    
-    RECORD }o--|| PARTICIPANT : "written by"
-    PARTICIPANT ||--o{ RECORD : "has many"
+  Participant ||--o{ Record : "author"
+  Participant }|--|| Group : "group"
+  Group ||--o{ Record : "group"
+  Group ||--o{ Participant : "participants"
+  Group ||--o{ Tag : "GroupTags"
+  Record }|--|| Group : "group"
+  Record }|--|| Participant : "author"
+  Group }|--|| Tag : "GroupTags"
 
-    RECORD }o--|| GROUP : "belongs to"
-    GROUP ||--o{ RECORD : "has many"
+  enum BadgeType {
+    PARTICIPATION_10
+    RECORD_100
+    LIKE_100
+  }
 
-    TAG }o--|| GROUP : "belongs to"
-    GROUP ||--o{ TAG : "has many"
-
-    GROUP }o--|| BADGETYPE : "has many"
+  enum ExerciseType {
+    RUN
+    BIKE
+    SWIM
+  }
