@@ -48,18 +48,6 @@ erDiagram
         INT groupId
     }
 
-    BADGETYPE {
-        ENUM PARTICIPATION_10
-        ENUM RECORD_100
-        ENUM LIKE_100
-    }
-
-    EXERCISETYPE {
-        ENUM RUN
-        ENUM BIKE
-        ENUM SWIM
-    }
-
     PARTICIPANT }o--|| GROUP : "belongs to"
     GROUP ||--o{ PARTICIPANT : "has many"
     
@@ -72,5 +60,4 @@ erDiagram
     TAG }o--|| GROUP : "belongs to"
     GROUP ||--o{ TAG : "has many"
 
-    GROUP }o--o{ BADGETYPE : "awards"
-    RECORD }o--|| EXERCISETYPE : "uses"
+    GROUP }o--|| BADGETYPE : "has many"
