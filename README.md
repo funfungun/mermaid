@@ -1,5 +1,3 @@
-## erd
-
 ```mermaid
 erDiagram
   Participant {
@@ -22,7 +20,7 @@ erDiagram
     int likeCount
     string ownerNickname
     string ownerPassword
-    BadgeType badges
+    string badges
     int recordCount
     datetime createdAt
     datetime updatedAt
@@ -30,7 +28,7 @@ erDiagram
 
   Record {
     int id PK
-    ExerciseType exerciseType
+    string exerciseType
     string description
     int time
     int distance
@@ -57,16 +55,4 @@ erDiagram
   Record }|--|| Group : "group"
   Record }|--|| Participant : "author"
   Group }|--|| Tag : "GroupTags"
-
-  enum BadgeType {
-    PARTICIPATION_10
-    RECORD_100
-    LIKE_100
-  }
-
-  enum ExerciseType {
-    RUN
-    BIKE
-    SWIM
-  }
 ```
