@@ -1,4 +1,4 @@
-## Database Schema
+## ERD
 
 ```mermaid
 erDiagram
@@ -10,6 +10,7 @@ erDiagram
         DATETIME updatedAt
         INT groupId
     }
+
     GROUP {
         INT id
         STRING name
@@ -19,17 +20,16 @@ erDiagram
         STRING discordWebhookUrl
         STRING discordInviteUrl
         INT likeCount
-        STRING[] tags
         STRING ownerNickname
         STRING ownerPassword
-        BADGETYPE[] badges
         INT recordCount
         DATETIME createdAt
         DATETIME updatedAt
     }
+
     RECORD {
         INT id
-        EXERCISETYPE exerciseType
+        ENUM exerciseType
         STRING description
         INT time
         INT distance
@@ -40,21 +40,37 @@ erDiagram
         DATETIME updatedAt
     }
 
-    PARTICIPANT ||--o| GROUP : "belongs to"
-    PARTICIPANT ||--o{ RECORD : "writes"
-    GROUP ||--o{ PARTICIPANT : "has"
-    GROUP ||--o{ RECORD : "contains"
-    RECORD ||--|{ GROUP : "belongs to"
-    RECORD ||--|{ PARTICIPANT : "authored by"
+    TAG {
+        INT id
+        STRING name
+        DATETIME createdAt
+        DATETIME updatedAt
+        INT groupId
+    }
 
     BADGETYPE {
-        STRING PARTICIPATION_10
-        STRING RECORD_100
-        STRING LIKE_100
+        ENUM PARTICIPATION_10
+        ENUM RECORD_100
+        ENUM LIKE_100
     }
 
     EXERCISETYPE {
-        STRING RUN
-        STRING BIKE
-        STRING SWIM
+        ENUM RUN
+        ENUM BIKE
+        ENUM SWIM
     }
+
+    PARTICIPANT }o--|| GROUP : "belongs to"
+    GROUP ||--o{ PARTICIPANT : "has many"
+    
+    RECORD }o--|| PARTICIPANT : "written by"
+    PARTICIPANT ||--o{ RECORD : "has many"
+
+    RECORD }o--|| GROUP : "belongs to"
+    GROUP ||--o{ RECORD : "has many"
+
+    TAG }o--|| GROUP : "belongs to"
+    GROUP ||--o{ TAG : "has many"
+
+    GROUP }o--o{ BADGETYPE : "awards"
+    RECORD }o--|| EXERCISETYPE : "uses"
